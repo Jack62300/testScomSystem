@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PersonnesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PersonnesRepository::class)
@@ -34,11 +35,16 @@ class Personnes
 
     /**
      * @ORM\Column(type="string", length=45, nullable=true)
+     * @Assert\Length(min = 8, max = 10, minMessage = "le Numéro doit contenire minimun 10 chiffre", maxMessage = "Votre numéro ne peut contenir plus de 10 chiffre")
+     * @Assert\Regex(pattern="/^\+33\(0\)[0-9]*$", message="Votre numéro n'est pas valide il doit y avoir +33") 
+     * @Assert\Regex(pattern="/^\03\(0\)[0-9]*$", message="Votre numéro n'est pas valide il doit y avoir 03") 
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=45, nullable=true)
+     * @Assert\Email(strict=true, message="Le format de l'email est incorrect")
+     * @Assert\Email(checkMX=true, message="Aucun serveur mail n'a été trouvé pour ce domaine")
      */
     private $email;
 
